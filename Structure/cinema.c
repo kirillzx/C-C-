@@ -6,7 +6,6 @@ typedef struct cinema{
   int *time;
   int *quantity;
 	struct cinema *next;
-  struct cinema *prev;
 }cinema;
 
 void display(cinema *start){
@@ -72,7 +71,7 @@ cinema* search_element(cinema *start, char *name){
             return tmp;
             break;
       }
-			tmp = tmp->next;
+	  tmp = tmp->next;
 		}
     return NULL;
 }
