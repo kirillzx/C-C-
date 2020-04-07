@@ -6,6 +6,7 @@ typedef struct cinema{
   int *time;
   int *quantity;
 	struct cinema *next;
+  struct cinema *prev;
 }cinema;
 
 void display(cinema *start){
@@ -31,7 +32,7 @@ cinema* add_element(cinema *last) {
     cinema *i = (cinema*)malloc(sizeof(cinema));
     char name_of_element[10];
     if(last != NULL){
-    printf("Enter the name of the element: ");
+    printf("Enter the name of the movie: ");
     scanf("%s", name_of_element);
 
     p = last->next;
@@ -40,7 +41,7 @@ cinema* add_element(cinema *last) {
     i->next = p;
     printf("\n>>The new movie was created<<\n");
     return i;
-  }else{
+    }else{
     printf(">>Wrong! For start, enter the Head movie<<");
     printf("\n");
   }
@@ -63,16 +64,16 @@ cinema* delete_element(cinema *last, cinema *start){
 }
 
 
-cinema* search_element(cinema *start, char name){
+cinema* search_element(cinema *start, char *name){
     cinema *tmp = start;
 
-    while(tmp!=NULL){
-			if(tmp->name == name){
-				return tmp;
-			}
+    for(;tmp!=NULL;tmp=tmp->next){
+      if(strcmp(tmp->name, name)==0){
+            return tmp;
+            break;
+      }
 			tmp = tmp->next;
 		}
-
     return NULL;
 }
 
@@ -80,7 +81,7 @@ cinema* deleteList(cinema *start){
    cinema *current = start;
 	 cinema *tmp;
 
-   while (current->next != NULL)
+   while (current != NULL)
    {
        tmp = current->next;
        free(current);
@@ -88,6 +89,7 @@ cinema* deleteList(cinema *start){
    }
    start = NULL;
 }
+
 
 int main(){
     int n, count=0;
@@ -149,14 +151,21 @@ int main(){
 
         if(n == 5){
 					i = deleteList(start);
+          last = NULL;
         }
 
         if(n == 6){
-						char k;
-						printf("Enter the name of the movie\n");
-						scanf("%s", &k);
-						i = search_element(start, k);
-						printf("The position of the movie is %d\n", i);
+						char k[20];
+            cinema *temp = NULL;
+            printf("Enter the name of the movie\n");
+            scanf("%s", k);
+            temp = search_element(start, k);
+            if(temp!=NULL){
+                printf("%s\n",temp->name);
+            }
+            else{
+                printf("\n>>There is no such movies<<\n");
+            }
         }
     }
     return 0;
